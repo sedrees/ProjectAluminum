@@ -6,62 +6,58 @@ default player_last = "Oyl"
 
 init python:
     class Skill:
-        def __init__(self, title, skills):
-            self.cat = title
-            self.skills = skills
+        def __init__(self, title, category, level):
+            self.title = title
+            self.category = category
+            self.level = level
 
-    def skill_change(self, skill, change):
-        skill += change
-        if change > 0:
-            direction = "increased"
-        else:
-            direction = "decreased"
-        renpy.notify("Your " + str(skill) + " " + direction + " by " + str(abs(change)))
+        def skill_change(self, change):
+            self.level += change
+            if change > 0:
+                direction = "increased"
+            else:
+                direction = "decreased"
+            renpy.notify("Your " + str(self.title) + " " + direction + " by " + str(abs(change)) + ". It is now " + str(self.level) + ".")
+            renpy.pause(5)
 
+        
 # The game starts here.
 
 label start:
-    
+
     #Init creative skills
-    default drawing = renpy.random.randint(0, 10)
-    default storytelling = renpy.random.randint(0, 10)
-    default typography = renpy.random.randint(0, 10)
-    default design = renpy.random.randint(0, 10)
+    $ drawing = Skill("Drawing", "Creative", renpy.random.randint(0,10))
+    $ storytelling = Skill("Storytelling", "Creative", renpy.random.randint(0,10))
+    $ typography = Skill("Typography", "Creative", renpy.random.randint(0,10))
+    $ design = Skill("Design", "Creative", renpy.random.randint(0,10))
 
     #Init dev skills
-    default frontend = renpy.random.randint(0, 10)
-    default backend = renpy.random.randint(0, 10)
-    default api = renpy.random.randint(0, 10)
+    $ frontend = Skill("Frontend", "Development", renpy.random.randint(0,10))
+    $ backend = Skill("Backend", "Development", renpy.random.randint(0,10))
+    $ api = Skill("API", "Development", renpy.random.randint(0,10))
 
     #Init admin skills
-    default administration = renpy.random.randint(0, 10)
-    default automation = renpy.random.randint(0, 10)
-    default databases = renpy.random.randint(0, 10)
-    default presentation = renpy.random.randint(0, 10)
+    $ administration = Skill("Administration", "Administration", renpy.random.randint(0,10))
+    $ automation = Skill("Automation", "Administration", renpy.random.randint(0,10))
+    $ databases = Skill("Databases", "Administration", renpy.random.randint(0,10))
+    $ presentation = Skill("Presentation", "Administration", renpy.random.randint(0,10))
 
     #Init soft skills
-    default charisma = renpy.random.randint(0, 100)
-    default morality = renpy.random.randint(0, 100)
-    default organization = renpy.random.randint(0, 100)
-    default confidence = renpy.random.randint(0, 100)
-    default communication = renpy.random.randint(0, 100)
-
-    $ creative = Skill("Creative", [drawing, storytelling, typography, design])
-    $ dev = Skill("Development", [frontend, backend, api])
-    $ admin = Skill("Administration", [administration, automation, databases, presentation])
-    $ soft = Skill("Soft Skills", [charisma, morality, organization, confidence, communication])
+    $ charisma = Skill("Charisma", "Soft Skills", renpy.random.randint(0,100))
+    $ morality = Skill("Morality", "Soft Skills", renpy.random.randint(0,100))
+    $ organization = Skill("Organization", "Soft Skills", renpy.random.randint(0,100))
+    $ communication = Skill("Communication", "Soft Skills", renpy.random.randint(0,100))
+    $ confidence = Skill("Confidence", "Soft Skills", renpy.random.randint(0,100))
 
     scene intro 1
 
     "You wake up, blinking slowly. You wonder if the events of yesterday were maybe just a dream... "
 
-    $ creative.skill_change(drawing, -11)
+    $ charisma.skill_change(500)
 
     "Suddenly."
 
     return
-
-    
 
     "It hits you again. It was very real, and you are now very unemployed."
     scene intro 2
