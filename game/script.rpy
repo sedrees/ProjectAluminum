@@ -1,9 +1,18 @@
-﻿#Player defaults
-default player = "Olive"
-default player_last = "Oyl"
+﻿#Player
+image fchar = "olive_oyl.png"
+image mchar = "oscar wilde.png"
+
+#Important stuff
+define dbg = Character("Debug")
+
+#Game loop
+default start_month = False
+default months = 0
+
+#Trigger story text in first month
+default first_time = 0
 
 #Skills
-
 init python:
     class Skill:
         def __init__(self, title, category, level):
@@ -53,11 +62,9 @@ label start:
 
     "You wake up, blinking slowly. You wonder if the events of yesterday were maybe just a dream... "
 
-    $ storytelling.skill_change(50)
+    $ charisma.skill_change(500)
 
     "Suddenly."
-
-    return
 
     "It hits you again. It was very real, and you are now very unemployed."
     scene intro 2
@@ -76,5 +83,20 @@ label start:
     jump main
 
 label main:
+    $ p = Character(player)
 
-    scene messy office
+    scene main_game
+    show fchar
+
+    if first_time == 0:
+        p "Today is the first day of the rest of my life. I guess it's time to start my journey of self-improvement... or something..."
+
+        p "If I don't, I'll have nothing to post on LinkedIn..."
+
+        $ first_time = 1
+
+   # while not start_month:
+    $ renpy.pause(15)
+
+return
+
