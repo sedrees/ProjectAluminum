@@ -83,10 +83,17 @@ label start:
     jump main
 
 label main:
+
+    #DEBUG
+    $ player = "Olive"
+    $ first_time = 1
+
+    #not debug
     $ p = Character(player)
 
-    scene main_game
-    show fchar
+    scene office
+    show fchar at right
+    call screen main_game
 
     if first_time == 0:
         p "Today is the first day of the rest of my life. I guess it's time to start my journey of self-improvement... or something..."
@@ -95,7 +102,7 @@ label main:
 
         $ first_time = 1
 
-   # while not start_month:
+    # while not start_month:
     $ renpy.pause(15)
 
 return

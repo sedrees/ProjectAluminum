@@ -257,14 +257,32 @@ style choice_button_text is default:
 screen main_game():
     style_prefix "main_game"
 
-    add "office.png" xalign 0.0 yalign 0.0
+    #Left menu area
+    window:
+        xsize 480
+        yalign 0.0
+        xalign 0.0
+        ysize 1080
+        background "#e1dac5cf"
 
-    #window:
-    #    xsize 480
-    #    yfill True
-    #    xalign 0.0
-    #    background "#e1dac550"
+        #Calendar date
+        vbox:
+            xalign 0.5
+            ypos 25
+            text "31 January, 2030"
 
+            #Schedule button
+            imagebutton:
+                ypos 50
+                idle "schedule_month_idle.png"
+                hover "schedule_month_hover.png"
+                action Jump("main")
+
+style main_game_text:
+    font "Gugi-Regular.ttf"
+    color "#0b163b"
+    size 42
+            
 
 
 ## Quick Menu screen ###########################################################
