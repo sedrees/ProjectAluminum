@@ -254,7 +254,7 @@ style choice_button_text is default:
 ## character and to play the game. 
 ##
 
-screen main_game():
+screen main_game(player, player_last, cur_title):
     style_prefix "main_game"
 
     #Left menu area
@@ -274,16 +274,129 @@ screen main_game():
             #Schedule button
             imagebutton:
                 ypos 50
-                idle "schedule_month_idle.png"
-                hover "schedule_month_hover.png"
+                auto "schedule_month_%s.png"
                 action Jump("main")
+
+        vbox:
+            xalign 0.5
+            yalign 0.8
+            spacing 35
+            
+            #New Project button
+            imagebutton:
+                auto "new_project_%s.png"
+                action Jump("main")
+
+            #Job Board button
+            imagebutton:
+                auto "job_board_%s.png"
+                action Jump("main")
+
+            #Courses button
+            imagebutton:
+                auto "view_courses_%s.png"
+                action Jump("main")
+
+    window:
+        style_prefix "main_game_mini_window"
+        xsize 480
+        ysize 320
+        yalign 0.1
+        xalign 0.4
+        background "#090a31cd"
+
+        #Name
+        vbox:
+            xalign 0.5
+            yalign 0.3
+            spacing 30
+            text player + " " + player_last
+            
+            hbox:
+                style_prefix "main_game_player_title"
+                xalign 0.5
+                text cur_title
+
+            #View Stats button
+            imagebutton:
+                xalign 0.5
+                auto "view_stats_%s.png"
+                action ShowMenu("view_stats")
 
 style main_game_text:
     font "Gugi-Regular.ttf"
     color "#0b163b"
     size 42
+    textalign 0.5
+    xalign 0.5
             
+style main_game_mini_window_text:
+    font "Gugi-Regular.ttf"
+    xalign 0.5
+    textalign 0.5
+    size 42
+    color "#ffe691"
 
+style main_game_player_title:
+    textalign 0.5
+
+
+screen view_stats():
+    style_prefix "stats_window"
+    window:
+        xsize 800
+        ysize 600
+        xalign 0.5
+        yalign 0.5
+        background "#090a31cd"
+
+        hbox:
+            spacing 40
+
+            vbox:
+                style_prefix "stats"
+                spacing 10
+                xalign 0.0
+                for skill in skills_by_category(player_skills, "Creative"):
+                    hbox:
+                        spacing 50
+                        text "[skill.title]"
+                        text "[skill.level]" 
+                    bar value skill.level range 100
+
+                for skill in skills_by_category(player_skills, "Development"):
+                    hbox:
+                        spacing 50
+                        text "[skill.title]"
+                        text "[skill.level]"
+                    bar value skill.level range 100
+
+            vbox:
+                style_prefix "stats"
+                xalign 1.0
+                spacing 10
+                for skill in skills_by_category(player_skills, "Administration"):
+                    hbox:
+                        spacing 50
+                        text "[skill.title]"
+                        text "[skill.level]" 
+                    bar value skill.level range 100
+
+                for skill in skills_by_category(player_skills, "Soft Skills"):
+                    hbox:
+                        spacing 50
+                        text "[skill.title]"
+                        text "[skill.level]" 
+                    bar value skill.level range 1000
+
+            vbox:
+                spacing 10
+
+style stats_vbox:
+    xsize 200
+
+
+    
 
 ## Quick Menu screen ###########################################################
 ##

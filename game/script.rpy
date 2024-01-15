@@ -1,4 +1,4 @@
-﻿#Player
+#Player
 image fchar = "olive_oyl.png"
 image mchar = "oscar wilde.png"
 
@@ -14,11 +14,20 @@ default first_time = 0
 
 #Skills
 init python:
+
+    def skills_by_category(skill_list, category):
+        return [skill for skill in skill_list if skill.category == category]
+
     class Skill:
         def __init__(self, title, category, level):
             self.title = title
             self.category = category
             self.level = level
+
+        def __eq__(self, other):
+            return (
+                isinstance(other, Skill) and self.title == other.title and self.category == other.category and self.level == other.level
+            )
 
         def skill_change(self, change):
             self.level += change
@@ -34,29 +43,34 @@ init python:
 
 label start:
 
-    #Init creative skills
-    $ drawing = Skill("Drawing", "Creative", renpy.random.randint(0,10))
-    $ storytelling = Skill("Storytelling", "Creative", renpy.random.randint(0,10))
-    $ typography = Skill("Typography", "Creative", renpy.random.randint(0,10))
-    $ design = Skill("Design", "Creative", renpy.random.randint(0,10))
+    $ player_skills = [
+        #Init creative skills
+        Skill("Drawing", "Creative", renpy.random.randint(0,10)),
+        Skill("Storytelling", "Creative", renpy.random.randint(0,10)),
+        Skill("Typography", "Creative", renpy.random.randint(0,10)),
+        Skill("Design", "Creative", renpy.random.randint(0,10)),
 
-    #Init dev skills
-    $ frontend = Skill("Frontend", "Development", renpy.random.randint(0,10))
-    $ backend = Skill("Backend", "Development", renpy.random.randint(0,10))
-    $ api = Skill("API", "Development", renpy.random.randint(0,10))
+        #Init dev skills
+        Skill("Frontend", "Development", renpy.random.randint(0,10)),
+        Skill("Backend", "Development", renpy.random.randint(0,10)),
+        Skill("API", "Development", renpy.random.randint(0,10)),
 
-    #Init admin skills
-    $ administration = Skill("Administration", "Administration", renpy.random.randint(0,10))
-    $ automation = Skill("Automation", "Administration", renpy.random.randint(0,10))
-    $ databases = Skill("Databases", "Administration", renpy.random.randint(0,10))
-    $ presentation = Skill("Presentation", "Administration", renpy.random.randint(0,10))
+        #Init admin skills
+        Skill("Administration", "Administration", renpy.random.randint(0,10)),
+        Skill("Automation", "Administration", renpy.random.randint(0,10)),
+        Skill("Databases", "Administration", renpy.random.randint(0,10)),
+        Skill("Presentation", "Administration", renpy.random.randint(0,10)),
 
-    #Init soft skills
-    $ charisma = Skill("Charisma", "Soft Skills", renpy.random.randint(0,100))
-    $ morality = Skill("Morality", "Soft Skills", renpy.random.randint(0,100))
-    $ organization = Skill("Organization", "Soft Skills", renpy.random.randint(0,100))
-    $ communication = Skill("Communication", "Soft Skills", renpy.random.randint(0,100))
-    $ confidence = Skill("Confidence", "Soft Skills", renpy.random.randint(0,100))
+        #Init soft skills
+        Skill("Charisma", "Soft Skills", renpy.random.randint(0,50)),
+        Skill("Morality", "Soft Skills", renpy.random.randint(0,50)),
+        Skill("Organization", "Soft Skills", renpy.random.randint(0,50)),
+        Skill("Communication", "Soft Skills", renpy.random.randint(0,50)),
+        Skill("Confidence", "Soft Skills", renpy.random.randint(0,50))
+    ]
+
+    #Make available globally?
+    $ persistent.player_skills = player_skills
 
     scene intro 1
 
@@ -86,6 +100,8 @@ label main:
 
     #DEBUG
     $ player = "Olive"
+    $ player_last = "Oyl"
+    $ cur_title = "Junior Administrator"
     $ first_time = 1
 
     #not debug
@@ -93,7 +109,7 @@ label main:
 
     scene office
     show fchar at right
-    call screen main_game
+    call screen main_game(player, player_last, cur_title)
 
     if first_time == 0:
         p "Today is the first day of the rest of my life. I guess it's time to start my journey of self-improvement... or something..."
