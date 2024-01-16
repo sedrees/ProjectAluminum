@@ -2,6 +2,11 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.rpyb
+*.rpyc
+*.save
+navigation.json
+*persistent*
 
 # C extensions
 *.so
