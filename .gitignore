@@ -166,3 +166,6 @@ cython_debug/
 
 # Logs
 *.txt
+*.txt
+*.txt
+game/saves/persistent

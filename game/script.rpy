@@ -15,8 +15,8 @@ default first_time = 0
 #Skills
 init python:
 
-    def skills_by_category(skill_list, category):
-        return [skill for skill in skill_list if skill.category == category]
+    def skills_by_category(skill_dict, category):
+        return [skill for skill in skill_dict.values() if skill.category == category]
 
     class Skill:
         def __init__(self, title, category, level):
@@ -43,40 +43,40 @@ init python:
 
 label start:
 
-    $ player_skills = [
+    $ player_skills = {
         #Init creative skills
-        Skill("Drawing", "Creative", renpy.random.randint(0,10)),
-        Skill("Storytelling", "Creative", renpy.random.randint(0,10)),
-        Skill("Typography", "Creative", renpy.random.randint(0,10)),
-        Skill("Design", "Creative", renpy.random.randint(0,10)),
+        "Drawing": Skill("Drawing", "Creative", renpy.random.randint(0,10)),
+        "Storytelling": Skill("Storytelling", "Creative", renpy.random.randint(0,10)),
+        "Typography": Skill("Typography", "Creative", renpy.random.randint(0,10)),
+        "Design": Skill("Design", "Creative", renpy.random.randint(0,10)),
 
         #Init dev skills
-        Skill("Frontend", "Development", renpy.random.randint(0,10)),
-        Skill("Backend", "Development", renpy.random.randint(0,10)),
-        Skill("API", "Development", renpy.random.randint(0,10)),
+        "Frontend": Skill("Frontend", "Development", renpy.random.randint(0,10)),
+        "Backend": Skill("Backend", "Development", renpy.random.randint(0,10)),
+        "API": Skill("API", "Development", renpy.random.randint(0,10)),
 
         #Init admin skills
-        Skill("Administration", "Administration", renpy.random.randint(0,10)),
-        Skill("Automation", "Administration", renpy.random.randint(0,10)),
-        Skill("Databases", "Administration", renpy.random.randint(0,10)),
-        Skill("Presentation", "Administration", renpy.random.randint(0,10)),
+        "Administration": Skill("Administration", "Administration", renpy.random.randint(0,10)),
+        "Automation": Skill("Automation", "Administration", renpy.random.randint(0,10)),
+        "Databases": Skill("Databases", "Administration", renpy.random.randint(0,10)),
+        "Presentation": Skill("Presentation", "Administration", renpy.random.randint(0,10)),
 
         #Init soft skills
-        Skill("Charisma", "Soft Skills", renpy.random.randint(0,50)),
-        Skill("Morality", "Soft Skills", renpy.random.randint(0,50)),
-        Skill("Organization", "Soft Skills", renpy.random.randint(0,50)),
-        Skill("Communication", "Soft Skills", renpy.random.randint(0,50)),
-        Skill("Confidence", "Soft Skills", renpy.random.randint(0,50))
-    ]
+        "Charisma": Skill("Charisma", "Soft Skills", renpy.random.randint(0,50)),
+        "Morality": Skill("Morality", "Soft Skills", renpy.random.randint(0,50)),
+        "Organization": Skill("Organization", "Soft Skills", renpy.random.randint(0,50)),
+        "Communication": Skill("Communication", "Soft Skills", renpy.random.randint(0,50)),
+        "Confidence": Skill("Confidence", "Soft Skills", renpy.random.randint(0,50))
+    }
 
-    #Make available globally?
+    #Make skills available globally
     $ persistent.player_skills = player_skills
 
     scene intro 1
 
     "You wake up, blinking slowly. You wonder if the events of yesterday were maybe just a dream... "
 
-    $ charisma.skill_change(500)
+    $ player_skills["Charisma"].skill_change(500)
 
     "Suddenly."
 
@@ -99,8 +99,9 @@ label start:
 label main:
 
     #DEBUG
-    $ player = "Olive"
-    $ player_last = "Oyl"
+    if not player or player_last: 
+        $ player = "Olive"
+        $ player_last = "Oyl"
     $ cur_title = "Junior Administrator"
     $ first_time = 1
 

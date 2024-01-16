@@ -352,23 +352,22 @@ screen view_stats():
 
         hbox:
             spacing 40
-
+            xalign 0.5
+            ypos 20
             vbox:
                 style_prefix "stats"
                 spacing 10
                 xalign 0.0
                 for skill in skills_by_category(player_skills, "Creative"):
                     hbox:
-                        spacing 50
                         text "[skill.title]"
-                        text "[skill.level]" 
+                        text "[skill.level]" xpos 1.0
                     bar value skill.level range 100
 
                 for skill in skills_by_category(player_skills, "Development"):
                     hbox:
-                        spacing 50
                         text "[skill.title]"
-                        text "[skill.level]"
+                        text "[skill.level]" xpos 1.0
                     bar value skill.level range 100
 
             vbox:
@@ -377,23 +376,35 @@ screen view_stats():
                 spacing 10
                 for skill in skills_by_category(player_skills, "Administration"):
                     hbox:
-                        spacing 50
                         text "[skill.title]"
-                        text "[skill.level]" 
+                        text "[skill.level]" xpos 1.0
                     bar value skill.level range 100
-
+            vbox:
+                style_prefix "stats"
+                xalign 1.0
+                spacing 10
                 for skill in skills_by_category(player_skills, "Soft Skills"):
                     hbox:
-                        spacing 50
                         text "[skill.title]"
-                        text "[skill.level]" 
+                        text "[skill.level]" xpos 1.0
                     bar value skill.level range 1000
-
-            vbox:
-                spacing 10
 
 style stats_vbox:
     xsize 200
+
+style stats_hbox:
+    xsize 175
+    ypos 10
+
+style stats_text:
+    size 20
+
+style stats_bar:
+    ysize 10
+    ymaximum 10
+
+style on_right:
+    xalign right
 
 
     
