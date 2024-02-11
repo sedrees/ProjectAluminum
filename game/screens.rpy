@@ -295,7 +295,7 @@ screen main_game(player, player_last, cur_title):
             #Courses button
             imagebutton:
                 auto "view_courses_%s.png"
-                action Jump("main")
+                action Jump("view_courses")
 
     window:
         style_prefix "main_game_mini_window"
@@ -406,7 +406,46 @@ style stats_bar:
 style on_right:
     xalign right
 
+screen view_courses():
+    style_prefix "browser"
+    window:
+        xsize 1920
+        ysize 1080
+        background "#f4f2ea"
 
+        frame:
+            xsize 1920
+            ysize 70
+            background "#e1dac5"
+
+            hbox:
+                image "sand_cat_transparent.png" ypos -3
+                image "browser_divider.png" xpos 10 ypos -3
+                imagebutton auto "browser_tab_%s" xpos 30 ypos 3
+                
+            textbutton "X" action Jump("main") xalign 1.0
+
+        frame:
+            style_prefix "browser_body"
+            xsize 1920
+            ypos 131
+            background "#f4f2ea"
+            text "Courses" xpos 100
+
+style browser_textbutton:
+    font "Gugi-Regular.ttf"
+    color "#3b0a12"
+
+style browser_body_text:
+    font "Karma-Regular.ttf"
+    color "#0b163b"
+    size 60
+
+
+
+
+
+            
     
 
 ## Quick Menu screen ###########################################################

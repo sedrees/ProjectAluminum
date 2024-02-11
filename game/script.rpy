@@ -2,8 +2,12 @@
 image fchar = "olive_oyl.png"
 image mchar = "oscar wilde.png"
 
-#Important stuff
+#Set defaults
 define dbg = Character("Debug")
+define player = "Olive"
+define player_last = "Oyl"
+define cur_title = "Unemployed Loser"
+$ first_time = 0
 
 #Game loop
 default start_month = False
@@ -15,20 +19,24 @@ default first_time = 0
 #Skills
 init python:
 
+    #Lookup values of the skills in each of the 4 categories
     def skills_by_category(skill_dict, category):
         return [skill for skill in skill_dict.values() if skill.category == category]
 
+    #Player has skills, this is their obj
     class Skill:
         def __init__(self, title, category, level):
             self.title = title
             self.category = category
             self.level = level
 
+        #If this isn't here then it DOESN'T work :) 
         def __eq__(self, other):
             return (
                 isinstance(other, Skill) and self.title == other.title and self.category == other.category and self.level == other.level
             )
 
+        #To be called when any action changes a skill level - value is modified and message is printed
         def skill_change(self, change):
             self.level += change
             if change > 0:
@@ -43,6 +51,7 @@ init python:
 
 label start:
 
+    #Master skills values dict and initialisation
     $ player_skills = {
         #Init creative skills
         "Drawing": Skill("Drawing", "Creative", renpy.random.randint(0,10)),
@@ -97,12 +106,6 @@ label start:
     jump main
 
 label main:
-
-    #DEBUG
-    if not player or player_last: 
-        $ player = "Olive"
-        $ player_last = "Oyl"
-    $ cur_title = "Junior Administrator"
     $ first_time = 1
 
     #not debug
@@ -121,6 +124,10 @@ label main:
 
     # while not start_month:
     $ renpy.pause(15)
+
+label view_courses:
+    call screen view_courses()
+    
 
 return
 
